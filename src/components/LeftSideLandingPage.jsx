@@ -8,7 +8,7 @@ const LeftSideLandingPage = () => {
 
       <div className='relative z-10 max-w-xl'>
         {/* Logo */}
-        <div className='flex items-center gap-2 my-5'>
+        <div className='my-5 flex items-center gap-2'>
           <div className='flex h-11 w-11 items-center justify-center rounded-xl bg-white text-lg font-bold text-[#242424]'>
             T
           </div>
@@ -42,10 +42,27 @@ const LeftSideLandingPage = () => {
             achievements. A simple workspace designed to help you get things
             done.
           </p>
+
+          {/* About + GitHub */}
+          <div className='mt-7 flex flex-wrap items-center gap-3'>
+            <a
+              href='/about'
+              className='rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#242424] transition hover:bg-[#e5e5e5]'>
+              About Todo App
+            </a>
+
+            <a
+              href='https://github.com/aadivishu4/react-todo-app.git'
+              target='_blank'
+              rel='noreferrer'
+              className='rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10'>
+              GitHub ↗
+            </a>
+          </div>
         </div>
 
         {/* Bottom Quote */}
-        <div className='mt-16 border-l-2 border-white/20 pl-4'>
+        <div className='mt-12 border-l-2 border-white/20 pl-4'>
           <p className='text-sm leading-6 text-[#888888]'>
             Small tasks completed every day lead to bigger achievements.
           </p>

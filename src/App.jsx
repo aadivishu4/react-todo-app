@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import appStore from "./redux/appStore";
 import TosterMessage from "./components/Toster";
 import Login from "./components/Login";
+import AboutUs from "./components/AboutUs";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           {/* Public Route */}
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<Login />} />
+          <Route path='about' element={<AboutUs />} />
           {/* Protected Route */}
           <Route
             path='/todo'

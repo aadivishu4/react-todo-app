@@ -129,12 +129,12 @@ const Login = () => {
             </div>
 
             {/* Google */}
-            <button
+            {/* <button
               type='button'
               className='flex w-full items-center justify-center gap-3 rounded-xl border border-[#d5d5d5] bg-white px-4 py-3.5 text-sm font-medium text-[#333333] transition hover:bg-[#f7f7f7]'>
               <span className='text-base font-semibold'>G</span>
               Continue with Google
-            </button>
+            </button> */}
 
             {/* Login */}
             <Link to='/' className='mt-7 text-center text-sm text-[#888888]'>
