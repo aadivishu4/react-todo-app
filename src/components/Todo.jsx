@@ -5,6 +5,7 @@ import useTodo from "../hooks/useTodo";
 import PendingTask from "./PendingTask";
 import CompletedTask from "./CompletedTask";
 import { removeUser } from "../redux/userSlice";
+import useToast from "../utils/useToaster";
 
 const Todo = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Todo = () => {
   const todos = useSelector((store) => store.todo);
   const user = useSelector((store) => store.user);
   const { addTodoItem, updateTodoItem, clearAllTodoItems } = useTodo();
+  const { showToast } = useToast();
 
   const [activeTab, setActiveTab] = useState("all");
 
@@ -50,24 +52,31 @@ const Todo = () => {
 
     if (!todoValue?.trim()) return;
 
-    // UPDATE EXISTING TODO
     if (editingTodoId) {
       const response = updateTodoItem(editingTodoId, todoValue);
 
-      if (!response?.error) {
-        todoRef.current.value = "";
-        setEditingTodoId(null);
+      if (response?.error) {
+        showToast(response.message || "Failed to update todo!", "error");
+        return;
       }
+
+      todoRef.current.value = "";
+      setEditingTodoId(null);
+
+      showToast("Todo updated successfully!", "success");
 
       return;
     }
 
-    // ADD NEW TODO
     const response = addTodoItem(todoValue);
 
     if (!response?.error) {
-      todoRef.current.value = "";
+      showToast(response.message || "Failed to add todo!", "error");
+      return;
     }
+
+    todoRef.current.value = "";
+    showToast("Todo added successfully!", "success");
   };
 
   const handleTodoUpdate = (id, task) => {

@@ -1,26 +1,17 @@
-import { useState } from "react";
 import { SignupValidation } from "../utils/validation";
 import { useDispatch } from "react-redux";
 import { addUser } from "../redux/userSlice";
-import { showToster, hideToster } from "../redux/tosterSlice";
 import { useNavigate, Link } from "react-router-dom";
+import useToast from "../utils/useToaster";
 
 const Signup = () => {
-  const [signupError, setSignupError] = useState(null);
+  // const [signupError, setSignupError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleFormSubmission = (e) => {
     e.preventDefault();
-    setSignupError(null);
-
-    dispatch(
-      hideToster({
-        show: false,
-        type: "",
-        message: "",
-      }),
-    );
 
     const payload = new FormData(e.currentTarget);
     const signupForm = Object.fromEntries(payload.entries());
@@ -28,19 +19,12 @@ const Signup = () => {
     const signupValidation = SignupValidation(signupForm);
 
     if (signupValidation.error) {
-      setSignupError(signupValidation.message);
+      showToast(signupValidation.message, "error");
       return;
     }
 
     dispatch(addUser({ ...signupForm, signup: true }));
-
-    dispatch(
-      showToster({
-        show: true,
-        type: "success",
-        message: "Account created successfully",
-      }),
-    );
+    showToast("Account created successfully", "success");
 
     navigate("/login", {
       state: {
@@ -48,7 +32,6 @@ const Signup = () => {
         password: signupForm.password,
       },
     });
-    console.log("toaster check dispatched...");
   };
 
   return (
@@ -139,12 +122,6 @@ const Signup = () => {
               className='w-full rounded-xl border border-[#d5d5d5] bg-white px-4 py-3.5 text-sm text-[#242424] outline-none transition placeholder:text-[#aaaaaa] focus:border-[#242424] focus:ring-1 focus:ring-[#242424]'
             />
           </div>
-
-          {/* error message to show */}
-          {signupError && (
-            <p className='-my-0.5 text-red-400 p-1'>{signupError}</p>
-          )}
-          {/* <div className='mb-2 block text-sm font-medium text-[#333333]'></div> */}
 
           {/* Signup */}
           <button

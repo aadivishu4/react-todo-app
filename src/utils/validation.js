@@ -78,7 +78,7 @@ export const SignupValidation = (payload) => {
 };
 
 export const SignInValidation = (payload) => {
-  const { email, password, userPassword } = payload;
+  const { email, password, userPassword, userEmail } = payload;
 
   if (!email) {
     return {
@@ -101,6 +101,13 @@ export const SignInValidation = (payload) => {
     return {
       error: true,
       message: "password is required",
+    };
+  }
+
+  if (email !== userEmail) {
+    return {
+      error: true,
+      message: "Invalid user please check your credentials",
     };
   }
 

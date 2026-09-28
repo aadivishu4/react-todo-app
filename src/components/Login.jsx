@@ -1,33 +1,34 @@
-import { useState } from "react";
 import { SignInValidation } from "../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../redux/userSlice";
 import { showToster } from "../redux/tosterSlice";
 import { useNavigate, Link } from "react-router-dom";
 import LeftSideLandingPage from "./LeftSideLandingPage";
+import useToast from "../utils/useToaster";
 
 const Login = () => {
-  const [signInError, setSignInError] = useState(null);
   const user = useSelector((store) => store?.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleLoginSubmission = (e) => {
     e.preventDefault();
-    setSignInError(null);
 
     const payload = new FormData(e.currentTarget);
     const signInForm = Object.fromEntries(payload.entries());
 
     const storedPassword = user?.password;
+    const storedEmail = user?.email;
     const signinValidation = SignInValidation({
       ...signInForm,
+      userEmail: storedEmail,
       userPassword: storedPassword,
     });
 
     if (signinValidation.error) {
-      setSignInError(signinValidation.message);
+      showToast(signinValidation.message || "Failed to sign in", "error");
       return;
     }
 
@@ -45,6 +46,7 @@ const Login = () => {
         message: "Logged in successfully",
       }),
     );
+    showToast("Logged in successfully", "success");
 
     navigate("/todo");
   };
@@ -107,11 +109,6 @@ const Login = () => {
                   className='w-full rounded-xl border border-[#d5d5d5] bg-white px-4 py-3.5 text-sm text-[#242424] outline-none transition placeholder:text-[#aaaaaa] focus:border-[#242424] focus:ring-1 focus:ring-[#242424]'
                 />
               </div>
-
-              {/* error message to show */}
-              {signInError && (
-                <p className='-my-0.5 text-red-400 p-1'>{signInError}</p>
-              )}
 
               {/* Signup */}
               <button
